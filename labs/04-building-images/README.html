@@ -5,7 +5,8 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.5">
-<title>Docker for testers</title>
+<meta name="author" content="*Running pre-made images is very useful and can save you a lot of time, but at some point you will want to create your own images.*">
+<title>Building images</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -512,63 +513,17 @@ table.CodeRay td.code>pre{padding:0}
 </head>
 <body class="book toc2 toc-left">
 <div id="header">
+<h1>Building images</h1>
+<div class="details">
+<span id="author" class="author">*Running pre-made images is very useful and can save you a lot of time, but at some point you will want to create your own images.*</span><br>
+</div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
-<ul class="sectlevel0">
-<li><a href="#docker-for-testers">Docker for testers</a>
 <ul class="sectlevel1">
-<li><a href="#installation-instructions">1. Installation instructions</a></li>
-</ul>
-</li>
-<li><a href="#exercises">Exercises</a>
-<ul class="sectlevel1">
-<li><a href="#hello-world">2. Hello World!</a></li>
-<li><a href="#running-docker-containers">3. Running Docker containers</a>
+<li><a href="#what-do-we-need-to-change">1. What do we need to change?</a>
 <ul class="sectlevel2">
-<li><a href="#inspecting-the-logs">3.1. Inspecting the logs</a></li>
-<li><a href="#passing-environment-variables-to-a-container">3.2. Passing environment variables to a container</a></li>
-<li><a href="#run-more-containers">3.3. Run more containers</a></li>
-</ul>
-</li>
-<li><a href="#managing-containers">4. Managing containers</a>
-<ul class="sectlevel2">
-<li><a href="#stopping-containers">4.1. Stopping containers</a></li>
-<li><a href="#removing-containers">4.2. Removing containers</a></li>
-</ul>
-</li>
-<li><a href="#building-images">5. Building images</a>
-<ul class="sectlevel2">
-<li><a href="#what-do-we-need-to-change">5.1. What do we need to change?</a>
-<ul class="sectlevel3">
-<li><a href="#changes-to-the-image">5.1.1. Changes to the image</a></li>
-<li><a href="#building-the-new-image">5.1.2. Building the new image</a>
-<ul class="sectlevel4">
-<li><a href="#starting-the-new-image">Starting the new image</a></li>
-<li><a href="#add-data-to-the-database">Add data to the database</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#running-your-database-with-data-included">6. Running your database with data included</a>
-<ul class="sectlevel2">
-<li><a href="#steps-to-prepare-the-database">6.1. Steps to prepare the database</a></li>
-<li><a href="#checking-whether-the-webpage-is-displayed-correctly">6.2. Checking whether the webpage is displayed correctly</a>
-<ul class="sectlevel3">
-<li><a href="#preparing-the-test-environment">6.2.1. Preparing the test environment</a>
-<ul class="sectlevel4">
-<li><a href="#starting-the-selenium-server">Starting the selenium server</a></li>
-<li><a href="#connect-with-vnc">Connect with VNC</a></li>
-<li><a href="#adjust-simpletest">Adjust SimpleTest</a></li>
-<li><a href="#execute-your-test">Execute your test</a></li>
-<li><a href="#considerations">Considerations</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
+<li><a href="#changes-to-the-image">1.1. Changes to the image</a></li>
+<li><a href="#building-the-new-image">1.2. Building the new image</a></li>
 </ul>
 </li>
 </ul>
@@ -577,396 +532,14 @@ table.CodeRay td.code>pre{padding:0}
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
-<div class="paragraph center">
-<p><span class="image"><img src="./images/docker-logo.png" alt="docker logo" width="250" height="250"></span></p>
-</div>
-</div>
-</div>
-<h1 id="docker-for-testers" class="sect0">Docker for testers</h1>
-<div class="openblock partintro">
-<div class="content">
-<div class="paragraph">
-<p><strong>The purpose of this training is to learn how to use Docker on your local machine.</strong></p>
-</div>
-<div class="paragraph">
-<p>At the end of the day you will know how to:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Start and stop containers</p>
-</li>
-<li>
-<p>Build your own images</p>
-</li>
-<li>
-<p>Run your own test database with test data</p>
-</li>
-<li>
-<p>Run your own Selenium Grid for web testing</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>The training is structured as follows: first theory, followed by practice, with every step building on the previous step.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-You can find the slides of the presentation on <a href="https://docs.google.com/presentation/d/1EiW9Ou-5a-Do_MqCZrLvU_YMbDwxMbjzMMJmX1ubauE/">Google Drive</a>
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="installation-instructions">1. Installation instructions</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Follow these steps to setup Docker on your machine.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Go to <a href="https://www.docker.com/products/overview#/install_the_platform" class="bare">https://www.docker.com/products/overview#/install_the_platform</a></p>
-</li>
-<li>
-<p>Download the distributable for your system type</p>
-</li>
-<li>
-<p>Follow the installation instructions</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>After the installation is complete, continue with Exercise 1 to verify that your setup is running correctly.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<strong>Windows Home Edition</strong><br>
-If you run Windows Home Edition and/or get a message about Hyper-V being disabled, you have to install <a href="https://www.docker.com/products/docker-toolbox">Docker Toolbox</a> instead because your version of Windows does not support the "Docker for Windows"-product.
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<strong>Hardware Virtualization disabled</strong><br>
-If you encounter the message "VT-x/AMD-v has to be enabled", please enable "Intel Virtualization" in the BIOS of your system. This is required for running virtual machines. Detailed instructions can be found <a href="http://www.howtogeek.com/213795/how-to-enable-intel-vt-x-in-your-computers-bios-or-uefi-firmware/">here</a> under "Access the BIOS or UEFI Firmware".
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<h1 id="exercises" class="sect0">Exercises</h1>
-<div class="sect1">
-<h2 id="hello-world">2. Hello World!</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Let&#8217;s start with verifying that your Docker setup is correct and that you can issue commands.</p>
-</div>
-<div class="listingblock">
-<div class="title">Open a command prompt and run:</div>
-<div class="content">
-<pre>docker run hello-world</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>This should show you a "Hello from Docker!" message and additional details on what happened under the hood.</p>
-</div>
-<div class="paragraph">
-<div class="title">Breaking down the command</div>
-<p>Let&#8217;s have a closer look at what the command we&#8217;ve just run actually means.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>&lt;docker&gt; &lt;run&gt; &lt;hello-world&gt;
-
-1: docker command itself
-2: the run instruction we've given to docker to start a container from an image (try running docker run --help)
-3: the name of the docker image you want to run (hello-world)</pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="running-docker-containers">3. Running Docker containers</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p><strong>This assignment focuses on the Docker commands necessary to start, stop and inspect containers.</strong><br></p>
-</div>
-<div class="paragraph">
-<p>We will use a Docker image published on the Docker Hub to start a small web server that serves a single "Hello World!"-page.</p>
-</div>
-<div class="listingblock">
-<div class="title">Start a container running a webserver</div>
-<div class="content">
-<pre>docker run -d -P training/webapp python app.py</pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">List the details of the newest container</div>
-<div class="content">
-<pre>docker ps -l</pre>
-</div>
-</div>
-<div class="paragraph">
-<div class="title">Find your container ID in the output</div>
-<p><span class="image"><img src="./images/docker-ps.png" alt="docker ps" width="2000" height="74"></span></p>
-</div>
-<div class="listingblock">
-<div class="title">Check out the website!</div>
-<div class="content">
-<pre>Go to http://localhost:32769 (the port number left of the -&gt; in the docker ps command output)</pre>
-</div>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-If you are using the Docker Toolbox, you may have to go to <code><a href="http://&lt;docker" class="bare">http://&lt;docker</a> ip&gt;:&lt;port&gt;</code> instead. Run <code>docker-machine ip default</code> to find the IP. Run <code>docker-machine ls</code> to find out the name of your Docker Machine.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>The site should say "Hello world!".</p>
-</div>
-<div class="sect2">
-<h3 id="inspecting-the-logs">3.1. Inspecting the logs</h3>
-<div class="paragraph">
-<p>After you&#8217;ve seen the "Hello world"-message you might want to inspect the logs of the docker container with the <code>logs</code> command.</p>
-</div>
-<div class="listingblock">
-<div class="title">Show the logs</div>
-<div class="content">
-<pre>docker logs &lt;container id or name&gt;</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>You should see <code>GET</code> commands on the root (/) of your webserver.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="passing-environment-variables-to-a-container">3.2. Passing environment variables to a container</h3>
-<div class="paragraph">
-<p>Most containers are configurable using environment variables that you can pass in at startup with the <code>-e</code> flag.
-We&#8217;ll use the container&#8217;s <code>PROVIDER</code> environment variable to pass in your name so it will be shown when you visit the website.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Environment variables are a set of dynamic, named values that can affect the way running processes will behave on a computer. They are part of the environment in which a process runs. <a href="https://en.wikipedia.org/wiki/Environment_variable">Wikipedia</a>
-</td>
-</tr>
-</table>
-</div>
-<div class="listingblock">
-<div class="title">Start a container with an environment variable</div>
-<div class="content">
-<pre>docker run -d -P -e PROVIDER="Your name" training/webapp python app.py</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Find out the port for this new container using the command below and visit it again to see your name displayed.</p>
-</div>
-<div class="listingblock">
-<div class="title">Find the mapped port for exposed port (5000) on the container</div>
-<div class="content">
-<pre>docker port &lt;container id returned by previous docker run command&gt; 5000</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="run-more-containers">3.3. Run more containers</h3>
-<div class="listingblock">
-<div class="title">Execute the run command a couple more times, followed by <code>docker ps</code></div>
-<div class="content">
-<pre>docker run -d -P training/webapp python app.py
-docker ps</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Notice that every container has a different port assigned on the host, but all map to 5000 port on the container. This is handled by the -P parameter.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>-P, --publish-all     Publish all exposed ports to random ports</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Of course, at times you may want to have more control over the ports you are running on.</p>
-</div>
-<div class="paragraph">
-<p>Figure out how to start another <code>training/webapp</code> container mapping a specific port (80) to the exposed port of the container (5000).
-Afterwards you should be able to see the Hello-message on <a href="http://localhost:80" class="bare">http://localhost:80</a>.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Start by checking the documentation of the run command: <code>docker run --help</code>
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="managing-containers">4. Managing containers</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>After exercise 1 and 2 we have a number of containers running, which we will probably want to stop at some point in time (like now).</p>
-</div>
-<div class="paragraph">
-<p>First we have to figure out which containers are currently running with <code>docker ps</code>.</p>
-</div>
-<div class="sect2">
-<h3 id="stopping-containers">4.1. Stopping containers</h3>
-<div class="listingblock">
-<div class="title">Listing all running containers</div>
-<div class="content">
-<pre>$ docker ps</pre>
-</div>
-</div>
-<div class="paragraph">
-<p><span class="image"><img src="./images/docker-ps-2.png" alt="docker ps 2" width="2000" height="200"></span></p>
-</div>
-<div class="paragraph">
-<p>You can stop a single container by running <code>docker stop</code> followed by the container id or name.</p>
-</div>
-<div class="listingblock">
-<div class="title">Stopping a single container</div>
-<div class="content">
-<pre>docker stop a557431a5588</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>You can also specify and stop multiple containers.</p>
-</div>
-<div class="listingblock">
-<div class="title">Stopping multiple containers</div>
-<div class="content">
-<pre>docker stop a557431a5588 clever_fermi</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Of course, you might also want to stop all containers at once. We can do this by passing the output of the <code>ps</code> command to the <code>stop</code> command.</p>
-</div>
-<div class="listingblock">
-<div class="title">docker ps flags</div>
-<div class="content">
-<pre>docker ps -a -q</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Run <code>docker ps --help</code> to find out what the <code>-a</code> and <code>-q</code> flags do. You might have noticed this is exactly the output we need to feed to the stop command</p>
-</div>
-<div class="paragraph">
-<div class="title">docker stop</div>
-<p>Linux/Mac OS X/Windows (Cygwin)</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>docker stop $(docker ps -a -q)</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Windows (DOS Prompt)</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>FOR /f "tokens=*" %i IN ('docker ps -a -q') DO docker stop %i</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If you now run <code>docker ps</code> the list of containers should be empty.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="removing-containers">4.2. Removing containers</h3>
-<div class="paragraph">
-<p>Now that we&#8217;ve stopped all the containers we can also remove them. Let&#8217;s see how many stopped containers we have on our system by running <code>docker ps -a</code>.</p>
-</div>
-<div class="listingblock">
-<div class="title">Listing stopped containers</div>
-<div class="content">
-<pre>docker ps -a</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>You can remove a container by running <code>docker rm</code> followed by its container id or name.</p>
-</div>
-<div class="listingblock">
-<div class="title">Stopping a container</div>
-<div class="content">
-<pre>docker rm big_newton</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Of course, in this case we&#8217;d rather remove all containers at once</p>
-</div>
-<div class="paragraph">
-<div class="title">Removing all containers</div>
-<p>Linux/Mac OS X/Windows (Cygwin)</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>docker rm $(docker ps -a -q)</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Windows (DOS Prompt)</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>FOR /f "tokens=*" %i IN ('docker ps -a -q') DO docker rm %i</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If you now list all stopped containers again, <code>docker ps -a</code>, no containers should be returned.This does <strong>not</strong> mean that the images are no longer available, as you can see by running <code>docker images</code>. We&#8217;ve only removed the containers which are, in essence, instances of the images available on your system.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="building-images">5. Building images</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p><strong>Running pre-made images is very useful and can save you a lot of time, but at some point you will want to create your own images.</strong></p>
-</div>
 <div class="paragraph">
 <p>The <code>training/webapp</code> image is limited in that it can only say "Hello World" or "Hello Your Name", let&#8217;s see if we can expand on the original image to display a value stored in a Postgres database.</p>
 </div>
-<div class="sect2">
-<h3 id="what-do-we-need-to-change">5.1. What do we need to change?</h3>
+</div>
+</div>
+<div class="sect1">
+<h2 id="what-do-we-need-to-change">1. What do we need to change?</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>In order to add the ability to connect to a database we have to change a number of things:</p>
 </div>
@@ -1013,8 +586,8 @@ Start by checking the documentation of the run command: <code>docker run --help<
 <div class="paragraph">
 <p>The following sections will discuss all these steps one-by-one.</p>
 </div>
-<div class="sect3">
-<h4 id="changes-to-the-image">5.1.1. Changes to the image</h4>
+<div class="sect2">
+<h3 id="changes-to-the-image">1.1. Changes to the image</h3>
 <div class="paragraph">
 <p>In order to build a Docker image yourself you need a <a href="https://docs.docker.com/engine/reference/builder/">Dockerfile</a>. In this case we will supply you with the Dockerfile necessary to create the image. But you will have to run the build process yourself to make the image available to your Docker daemon.</p>
 </div>
@@ -1050,8 +623,8 @@ Start by checking the documentation of the run command: <code>docker run --help<
 </ol>
 </div>
 </div>
-<div class="sect3">
-<h4 id="building-the-new-image">5.1.2. Building the new image</h4>
+<div class="sect2">
+<h3 id="building-the-new-image">1.2. Building the new image</h3>
 <div class="paragraph">
 <p>We now have to instruct Docker to pickup the Dockerfile and build it with the tag <code>testnetapp</code>.</p>
 </div>
@@ -1073,8 +646,8 @@ Make sure your working directory is <code>docker-images/training-webapp-postgres
 <pre>docker build -t testnetapp .</pre>
 </div>
 </div>
-<div class="sect4">
-<h5 id="starting-the-new-image">Starting the new image</h5>
+<div class="sect3">
+<h4 id="starting-the-new-image">1.2.1. Starting the new image</h4>
 <div class="paragraph">
 <p>Before we start a container with the <code>testnetapp</code> image we first need to start a Postgres database that will store our data for us.</p>
 </div>
@@ -1088,8 +661,8 @@ Make sure your working directory is <code>docker-images/training-webapp-postgres
 </div>
 </div>
 </div>
-<div class="sect4">
-<h5 id="add-data-to-the-database">Add data to the database</h5>
+<div class="sect3">
+<h4 id="add-data-to-the-database">1.2.2. Add data to the database</h4>
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
@@ -1118,199 +691,6 @@ SELECT * FROM kv; -- Check that the data is really there
 <div class="title">Now run the app and check that your data is displayed</div>
 <div class="content">
 <pre>docker run -ti --link pg:pg -p 5000:5000 testnetapp</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="running-your-database-with-data-included">6. Running your database with data included</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p><strong>Having to insert the data every time you start a container can become a hassle. In this exercise we will bake our data into the Postgres image so that it will be available on startup.</strong></p>
-</div>
-<div class="paragraph">
-<p>The <a href="https://hub.docker.com/_/postgres/">Postgres</a> image provides a convenient way to execute scripts on startup of your database. All we have to do is add a <code>.sh</code> script to the <code>docker-entrypoint-initdb.d-folder</code> as per the documentation of the image.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-If you still have containers running, please stop them now.
-</td>
-</tr>
-</table>
-</div>
-<div class="sect2">
-<h3 id="steps-to-prepare-the-database">6.1. Steps to prepare the database</h3>
-<div class="paragraph">
-<p>Follow the steps below to create your own version of the Postgres image, including the files necessary to create the data we need for the <code>testnetapp</code>.</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Create an empty folder</p>
-</li>
-<li>
-<p>Put the <code>.sh</code> script below in that folder</p>
-</li>
-<li>
-<p>Create a <code>Dockerfile</code> in the folder that</p>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>Is built <a href="https://docs.docker.com/engine/reference/builder/#/from">from</a> postgres:9</p>
-</li>
-<li>
-<p><a href="https://docs.docker.com/engine/reference/builder/#/add">Adds</a> the <code>.sh</code> file to the <code>docker-entrypoint-initdb.d</code> folder in the container</p>
-</li>
-</ol>
-</div>
-</li>
-<li>
-<p>Build the image and run it</p>
-</li>
-<li>
-<p>Run the <code>testnetapp</code> and link it to the new Postgres image</p>
-</li>
-</ol>
-</div>
-<div class="listingblock">
-<div class="title">The script to add to the Dockerfile</div>
-<div class="content">
-<pre>#!/bin/bash
-set -e
-
-psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" &lt;&lt;-EOSQL
-    CREATE DATABASE testnet;
-    \c testnet
-    CREATE TABLE kv (key varchar(100) PRIMARY KEY, value varchar(100));
-    INSERT INTO kv VALUES ('provider','Now getting data from Postgres!');
-EOSQL</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="checking-whether-the-webpage-is-displayed-correctly">6.2. Checking whether the webpage is displayed correctly</h3>
-<div class="paragraph">
-<p><strong>Spinning up your own Selenium containers can be convenient if you want to test a site with a specific browser and don&#8217;t want to bother with configuration of machines.</strong></p>
-</div>
-<div class="paragraph">
-<p>In this exercise we will run our <code>testnetapp</code> and verify that the displayed page has the correct content, using a browser supplied by Selenium.</p>
-</div>
-<div class="sect3">
-<h4 id="preparing-the-test-environment">6.2.1. Preparing the test environment</h4>
-<div class="paragraph">
-<p>For the automated check to succeed we assume the following:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>The Postgres database is running and has data</p>
-</li>
-<li>
-<p><code>testnetapp</code> is able to connect to the database</p>
-</li>
-<li>
-<p>Selenium grid is running</p>
-</li>
-<li>
-<p>The Java environment to execute the tests will be provided by a Docker container too</p>
-</li>
-</ol>
-</div>
-<div class="sect4">
-<h5 id="starting-the-selenium-server">Starting the selenium server</h5>
-<div class="paragraph">
-<p>Assuming you have the Postgres and <code>testnetapp</code> image running, start the Selenium server by executing:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>docker run --name selenium -d --link testnet -p 4444:4444 -p 5900:5900 selenium/standalone-firefox-debug</pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="connect-with-vnc">Connect with VNC</h5>
-<div class="paragraph">
-<p>In order to monitor test progress we can connect with <a href="https://www.realvnc.com/download/viewer/">VNC viewer</a> to the Selenium node after we&#8217;ve started it.
-The VNC server is listening on port 5900, the password is <code>secret</code>.</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="adjust-simpletest">Adjust SimpleTest</h5>
-<div class="paragraph">
-<p>We&#8217;ve prepared a simple Java project to test whether the <code>testnetapp</code> displays the correct message.
-Adjust the message you added to the database in the SimpleTest.java file. This file can be found inside the selenium-grid-docker directory.</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="execute-your-test">Execute your test</h5>
-<div class="paragraph">
-<p>We will use the official <a href="https://hub.docker.com/_/maven/">Maven</a> image (<code>maven:3.3.9-jdk-8-alpine</code>) to build and execute our test.</p>
-</div>
-<div class="paragraph">
-<p>This image provides a Java environment and Maven (a Java build tool) to execute the project. In order to make the project files, which are on your local machine, available to the container we will mount the <code>selenium-grid-docker</code> directory as a <a href="https://docs.docker.com/engine/tutorials/dockervolumes/#/mount-a-host-directory-as-a-data-volume">volume</a> for the container.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Make sure that your command prompt is in the <code>selenium-grid-docker</code> directory.
-</td>
-</tr>
-</table>
-</div>
-<div class="literalblock">
-<div class="title">Execute this command to start the test</div>
-<div class="content">
-<pre>docker run -it --rm --name my-maven-project --link selenium -v "$PWD":/usr/src/mymaven -w /usr/src/mymaven maven:3.3.9-jdk-8-alpine mvn clean install</pre>
-</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="considerations">Considerations</h5>
-<div class="exampleblock">
-<div class="content">
-<div class="ulist">
-<ul>
-<li>
-<p>Why do we link the Maven container to the Selenium container? Why doesn&#8217;t the Selenium container have to be linked to the <code>testnetapp</code> container?</p>
-</li>
-<li>
-<p>What are the implications of the <code>-v</code> flag in the command?</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>= Appendix</p>
-</div>
-<div class="paragraph">
-<p>== Dealing with named containers
-You can start named containers by adding <code>--name your_name</code> to any docker run command. If you try to start a new instance of a container with that same name you will get an error message.</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>docker: Error response from daemon: Conflict. The name "/pg" is already in use by container. You have to remove (or rename) that container to be able to reuse that name..</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>This is easily resolved by running</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>docker rm -f &lt;container_name&gt;</pre>
-</div>
-</div>
-</div>
 </div>
 </div>
 </div>
