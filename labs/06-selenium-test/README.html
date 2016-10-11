@@ -5,6 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.5">
+<meta name="author" content="*Spinning up your own Selenium containers can be convenient if you want to test a site with a specific browser and don't want to bother with configuration of machines.*">
 <title>Checking whether the webpage is displayed correctly</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -512,29 +513,36 @@ table.CodeRay td.code>pre{padding:0}
 </head>
 <body class="book toc2 toc-left">
 <div id="header">
+<h1>Checking whether the webpage is displayed correctly</h1>
+<div class="details">
+<span id="author" class="author">*Spinning up your own Selenium containers can be convenient if you want to test a site with a specific browser and don't want to bother with configuration of machines.*</span><br>
+</div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#checking-whether-the-webpage-is-displayed-correctly">1. Checking whether the webpage is displayed correctly</a>
-<ul class="sectlevel2">
-<li><a href="#preparing-the-test-environment">1.1. Preparing the test environment</a></li>
+<li><a href="#preparing-the-test-environment">1. Preparing the test environment</a></li>
+<li><a href="#starting-the-selenium-server">2. Starting the selenium server</a></li>
+<li><a href="#connect-with-vnc">3. Connect with VNC</a></li>
+<li><a href="#adjust-simpletest">4. Adjust SimpleTest</a></li>
+<li><a href="#execute-your-test">5. Execute your test</a>
+<ul class="sectlevel3">
+<li><a href="#considerations">5.1. Considerations</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 <div id="content">
-<div class="sect1">
-<h2 id="checking-whether-the-webpage-is-displayed-correctly">1. Checking whether the webpage is displayed correctly</h2>
+<div id="preamble">
 <div class="sectionbody">
-<div class="paragraph">
-<p><strong>Spinning up your own Selenium containers can be convenient if you want to test a site with a specific browser and don&#8217;t want to bother with configuration of machines.</strong></p>
-</div>
 <div class="paragraph">
 <p>In this exercise we will run our <code>testnetapp</code> and verify that the displayed page has the correct content, using a browser supplied by Selenium.</p>
 </div>
-<div class="sect2">
-<h3 id="preparing-the-test-environment">1.1. Preparing the test environment</h3>
+</div>
+</div>
+<div class="sect1">
+<h2 id="preparing-the-test-environment">1. Preparing the test environment</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>For the automated check to succeed we assume the following:</p>
 </div>
@@ -554,8 +562,11 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 </ol>
 </div>
-<div class="sect3">
-<h4 id="starting-the-selenium-server">1.1.1. Starting the selenium server</h4>
+</div>
+</div>
+<div class="sect1">
+<h2 id="starting-the-selenium-server">2. Starting the selenium server</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Assuming you have the Postgres and <code>testnetapp</code> image running, start the Selenium server by executing:</p>
 </div>
@@ -565,22 +576,28 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="connect-with-vnc">1.1.2. Connect with VNC</h4>
+</div>
+<div class="sect1">
+<h2 id="connect-with-vnc">3. Connect with VNC</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>In order to monitor test progress we can connect with <a href="https://www.realvnc.com/download/viewer/">VNC viewer</a> to the Selenium node after we&#8217;ve started it.
 The VNC server is listening on port 5900, the password is <code>secret</code>.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="adjust-simpletest">1.1.3. Adjust SimpleTest</h4>
+</div>
+<div class="sect1">
+<h2 id="adjust-simpletest">4. Adjust SimpleTest</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>We&#8217;ve prepared a simple Java project to test whether the <code>testnetapp</code> displays the correct message.
 Adjust the message you added to the database in the SimpleTest.java file. This file can be found inside the selenium-grid-docker directory.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="execute-your-test">1.1.4. Execute your test</h4>
+</div>
+<div class="sect1">
+<h2 id="execute-your-test">5. Execute your test</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>We will use the official <a href="https://hub.docker.com/_/maven/">Maven</a> image (<code>maven:3.3.9-jdk-8-alpine</code>) to build and execute our test.</p>
 </div>
@@ -605,9 +622,8 @@ Make sure that your command prompt is in the <code>selenium-grid-docker</code> d
 <pre>docker run -it --rm --name my-maven-project --link selenium -v "$PWD":/usr/src/mymaven -w /usr/src/mymaven maven:3.3.9-jdk-8-alpine mvn clean install</pre>
 </div>
 </div>
-</div>
 <div class="sect3">
-<h4 id="considerations">1.1.5. Considerations</h4>
+<h4 id="considerations">5.1. Considerations</h4>
 <div class="exampleblock">
 <div class="content">
 <div class="ulist">
@@ -626,10 +642,9 @@ Make sure that your command prompt is in the <code>selenium-grid-docker</code> d
 </div>
 </div>
 </div>
-</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-10-11 01:21:00 CEST
+Last updated 2016-10-11 07:51:19 CEST
 </div>
 </div>
 </body>
