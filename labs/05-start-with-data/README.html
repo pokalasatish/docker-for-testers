@@ -5,7 +5,6 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.5">
-<meta name="author" content="*Having to insert the data every time you start a container can become a hassle. In this exercise we will bake our data into the Postgres image so that it will be available on startup.*">
 <title>Running your database with data included</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -514,9 +513,6 @@ table.CodeRay td.code>pre{padding:0}
 <body class="book toc2 toc-left">
 <div id="header">
 <h1>Running your database with data included</h1>
-<div class="details">
-<span id="author" class="author">*Having to insert the data every time you start a container can become a hassle. In this exercise we will bake our data into the Postgres image so that it will be available on startup.*</span><br>
-</div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
@@ -527,6 +523,9 @@ table.CodeRay td.code>pre{padding:0}
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
+<div class="paragraph">
+<p><strong>Having to insert the data every time you start a container can become a hassle. In this exercise we will bake our data into the Postgres image so that it will be available on startup.</strong></p>
+</div>
 <div class="paragraph">
 <p>The <a href="https://hub.docker.com/_/postgres/">Postgres</a> image provides a convenient way to execute scripts on startup of your database. All we have to do is add a <code>.sh</code> script to the <code>docker-entrypoint-initdb.d-folder</code> as per the documentation of the image.</p>
 </div>
@@ -547,6 +546,9 @@ If you still have containers running, please stop them now.
 <div class="sect1">
 <h2 id="steps-to-prepare-the-database">1. Steps to prepare the database</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p><span class="image"><img src="custom-db-container.png" alt="custom db container" width="600" height="600"></span></p>
+</div>
 <div class="paragraph">
 <p>Follow the steps below to create your own version of the Postgres image, including the files necessary to create the data we need for the <code>testnetapp</code>.</p>
 </div>
@@ -598,7 +600,7 @@ EOSQL</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-10-11 07:25:57 CEST
+Last updated 2017-01-09 12:50:08 CET
 </div>
 </div>
 </body>

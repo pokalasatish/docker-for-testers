@@ -544,6 +544,9 @@ table.CodeRay td.code>pre{padding:0}
 <h2 id="preparing-the-test-environment">1. Preparing the test environment</h2>
 <div class="sectionbody">
 <div class="paragraph">
+<p><span class="image"><img src="container-overview.png" alt="container overview" width="600" height="600"></span></p>
+</div>
+<div class="paragraph">
 <p>For the automated check to succeed we assume the following:</p>
 </div>
 <div class="olist arabic">
@@ -572,7 +575,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>docker run --name selenium -d --link testnet -p 4444:4444 -p 5900:5900 selenium/standalone-firefox-debug</pre>
+<pre>docker run --name selenium -d --link testnetapp -p 4444:4444 -p 5900:5900 selenium/standalone-firefox-debug</pre>
 </div>
 </div>
 </div>
@@ -644,7 +647,7 @@ Make sure that your command prompt is in the <code>selenium-grid-docker</code> d
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-10-11 07:51:19 CEST
+Last updated 2017-01-09 12:50:08 CET
 </div>
 </div>
 </body>

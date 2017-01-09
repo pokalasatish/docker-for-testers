@@ -717,6 +717,9 @@ If you encounter the message "VT-x/AMD-v has to be enabled", please enable "Inte
 <h2 id="running-docker-containers">3. Running Docker containers</h2>
 <div class="sectionbody">
 <div class="paragraph">
+<p><span class="image"><img src="./images/first-container.png" alt="first container" width="500" height="500"></span></p>
+</div>
+<div class="paragraph">
 <p><strong>This assignment focuses on the Docker commands necessary to start, stop and inspect containers.</strong><br></p>
 </div>
 <div class="paragraph">
@@ -831,6 +834,9 @@ docker ps</pre>
 <div class="paragraph">
 <p>Figure out how to start another <code>training/webapp</code> container mapping a specific port (80) to the exposed port of the container (5000).
 Afterwards you should be able to see the Hello-message on <a href="http://localhost:80" class="bare">http://localhost:80</a>.</p>
+</div>
+<div class="paragraph">
+<p>Also figure out what the -d parameter is doing by checking the documentation.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -976,6 +982,9 @@ Start by checking the documentation of the run command: <code>docker run --help<
 <div class="sect2">
 <h3 id="what-do-we-need-to-change">5.1. What do we need to change?</h3>
 <div class="paragraph">
+<p><span class="image"><img src="./images/postgres-container.png" alt="postgres container" width="600" height="600"></span></p>
+</div>
+<div class="paragraph">
 <p>In order to add the ability to connect to a database we have to change a number of things:</p>
 </div>
 <div class="olist arabic">
@@ -1084,6 +1093,18 @@ Make sure your working directory is <code>docker-images/training-webapp-postgres
 <pre>docker build -t testnetapp .</pre>
 </div>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Read the documentation of the build command: <code>docker build --help</code>
+</td>
+</tr>
+</table>
+</div>
 <div class="sect4">
 <h5 id="starting-the-new-image">Starting the new image</h5>
 <div class="paragraph">
@@ -1131,6 +1152,19 @@ SELECT * FROM kv; -- Check that the data is really there
 <pre>docker run -ti --link pg:pg -p 5000:5000 testnetapp</pre>
 </div>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In foreground mode (the default when -d is not specified), docker run can start the process in the container and attach the console to the process’s standard input, output, and standard error. It can even pretend to be a TTY (this is what most command line executables expect) and pass along signals.
+For interactive processes (like a shell), you must use -i -t together in order to allocate a tty for the container process. -i -t is often written -it.
+</td>
+</tr>
+</table>
+</div>
 </div>
 </div>
 </div>
@@ -1159,6 +1193,9 @@ If you still have containers running, please stop them now.
 </div>
 <div class="sect2">
 <h3 id="steps-to-prepare-the-database">6.1. Steps to prepare the database</h3>
+<div class="paragraph">
+<p><span class="image"><img src="./images/custom-db-container.png" alt="custom db container" width="600" height="600"></span></p>
+</div>
 <div class="paragraph">
 <p>Follow the steps below to create your own version of the Postgres image, including the files necessary to create the data we need for the <code>testnetapp</code>.</p>
 </div>
@@ -1220,6 +1257,9 @@ EOSQL</pre>
 <div class="sect2">
 <h3 id="preparing-the-test-environment">7.1. Preparing the test environment</h3>
 <div class="paragraph">
+<p><span class="image"><img src="./images/container-overview.png" alt="container overview" width="600" height="600"></span></p>
+</div>
+<div class="paragraph">
 <p>For the automated check to succeed we assume the following:</p>
 </div>
 <div class="olist arabic">
@@ -1246,7 +1286,7 @@ EOSQL</pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>docker run --name selenium -d --link testnet -p 4444:4444 -p 5900:5900 selenium/standalone-firefox-debug</pre>
+<pre>docker run --name selenium -d --link testnetapp -p 4444:4444 -p 5900:5900 selenium/standalone-firefox-debug</pre>
 </div>
 </div>
 </div>
@@ -1337,7 +1377,7 @@ Make sure that your command prompt is in the <code>selenium-grid-docker</code> d
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-10-11 07:25:57 CEST
+Last updated 2017-01-09 12:50:08 CET
 </div>
 </div>
 </body>
