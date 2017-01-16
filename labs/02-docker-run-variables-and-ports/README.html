@@ -540,6 +540,9 @@ table.CodeRay td.code>pre{padding:0}
 <pre>docker run -d -P training/webapp python app.py</pre>
 </div>
 </div>
+<div class="paragraph">
+<p>This runs the <code>training/webapp</code>-image in detached (<code>-d</code>) mode, exposing all ports (<code>-P</code>), calling <code>python</code> inside the container with one argument <code>app.py</code>, which is a script inside the container.</p>
+</div>
 <div class="listingblock">
 <div class="title">List the details of the newest container</div>
 <div class="content">
@@ -556,6 +559,9 @@ table.CodeRay td.code>pre{padding:0}
 <pre>Go to http://localhost:32769 (the port number left of the -&gt; in the docker ps command output)</pre>
 </div>
 </div>
+<div class="paragraph">
+<p>The site should say <code>Hello world!</code>.</p>
+</div>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -568,16 +574,13 @@ If you are using the Docker Toolbox, you have to go to <code><a href="http://&lt
 </tr>
 </table>
 </div>
-<div class="paragraph">
-<p>The site should say "Hello world!".</p>
-</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="inspecting-the-logs">1. Inspecting the logs</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>After you&#8217;ve seen the "Hello world"-message you might want to inspect the logs of the docker container with the <code>logs</code> command.</p>
+<p>After you&#8217;ve seen the <code>Hello world-message</code> you might want to inspect the logs of the docker container with the <code>logs</code> command.</p>
 </div>
 <div class="listingblock">
 <div class="title">Show the logs</div>
@@ -594,7 +597,7 @@ If you are using the Docker Toolbox, you have to go to <code><a href="http://&lt
 <h2 id="passing-environment-variables-to-a-container">2. Passing environment variables to a container</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Most containers are configurable using environment variables that you can pass in at startup with the <code>-e</code> flag.
+<p>A lot of containers are configurable using environment variables that you can pass in at startup with the <code>-e</code> flag.
 We&#8217;ll use the container&#8217;s <code>PROVIDER</code> environment variable to pass in your name so it will be shown when you visit the website.</p>
 </div>
 <div class="admonitionblock note">
@@ -651,9 +654,6 @@ docker ps</pre>
 <p>Figure out how to start another <code>training/webapp</code> container mapping a specific port (80) to the exposed port of the container (5000).
 Afterwards you should be able to see the Hello-message on <a href="http://localhost:80" class="bare">http://localhost:80</a>.</p>
 </div>
-<div class="paragraph">
-<p>Also figure out what the -d parameter is doing by checking the documentation.</p>
-</div>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -661,7 +661,7 @@ Afterwards you should be able to see the Hello-message on <a href="http://localh
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Start by checking the documentation of the run command: <code>docker run --help</code>
+Start by checking the <a href="https://docs.docker.com/engine/reference/run/#/expose-incoming-ports">documentation of the run command</a> or execute: <code>docker run --help</code>. Also figure out what the -d parameter is doing by checking the documentation.
 </td>
 </tr>
 </table>
@@ -671,7 +671,7 @@ Start by checking the documentation of the run command: <code>docker run --help<
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-01-09 12:50:08 CET
+Last updated 2017-01-16 10:57:21 CET
 </div>
 </div>
 </body>

@@ -525,10 +525,11 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#connect-with-vnc">3. Connect with VNC</a></li>
 <li><a href="#adjust-simpletest">4. Adjust SimpleTest</a></li>
 <li><a href="#execute-your-test">5. Execute your test</a>
-<ul class="sectlevel3">
-<li><a href="#considerations">5.1. Considerations</a></li>
+<ul class="sectlevel2">
+<li><a href="#additional-windows-docker-toolbox-details">5.1. Additional Windows/Docker toolbox details</a></li>
 </ul>
 </li>
+<li><a href="#considerations">6. Considerations</a></li>
 </ul>
 </div>
 </div>
@@ -575,7 +576,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>docker run --name selenium -d --link testnetapp -p 4444:4444 -p 5900:5900 selenium/standalone-firefox-debug</pre>
+<pre>docker run --name selenium -d --network training -p 4444:4444 -p 5900:5900 selenium/standalone-firefox-debug</pre>
 </div>
 </div>
 </div>
@@ -622,24 +623,45 @@ Make sure that your command prompt is in the <code>selenium-grid-docker</code> d
 <div class="literalblock">
 <div class="title">Execute this command to start the test</div>
 <div class="content">
-<pre>docker run -it --rm --name my-maven-project --link selenium -v "$PWD":/usr/src/mymaven -w /usr/src/mymaven maven:3.3.9-jdk-8-alpine mvn clean install</pre>
+<pre>docker run -it --rm --name my-maven-project --network training -v "$PWD":/usr/src/mymaven -w /usr/src/mymaven maven:3.3.9-jdk-8-alpine mvn clean install</pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="considerations">5.1. Considerations</h4>
-<div class="exampleblock">
+<div class="sect2">
+<h3 id="additional-windows-docker-toolbox-details">5.1. Additional Windows/Docker toolbox details</h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+On Windows/GIT Bash/Cygwin you may get the following error <code>the input device is not a TTY. If you are using mintty, try prefixing the command with 'winpty'</code>.
+Run the command again with <code>winpty</code> in front of it. Refer to this <a href="http://willi.am/blog/2016/08/08/docker-for-windows-interactive-sessions-in-mintty-git-bash/">page</a> for details.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Before we can mount a volume on Windows when using Docker Machine we need to make a shared folder in Virtual Box first. See step 3 of this <a href="https://blog.pavelsklenar.com/5-useful-docker-tip-and-tricks-on-windows/">page</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="considerations">6. Considerations</h2>
+<div class="sectionbody">
+<div class="literalblock">
 <div class="content">
-<div class="ulist">
-<ul>
-<li>
-<p>Why do we link the Maven container to the Selenium container? Why doesn&#8217;t the Selenium container have to be linked to the <code>testnetapp</code> container?</p>
-</li>
-<li>
-<p>What are the implications of the <code>-v</code> flag in the command?</p>
-</li>
-</ul>
-</div>
-</div>
+<pre>What are the implications of the `-v` flag in the command?</pre>
 </div>
 </div>
 </div>
@@ -647,7 +669,7 @@ Make sure that your command prompt is in the <code>selenium-grid-docker</code> d
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-01-09 12:50:08 CET
+Last updated 2017-01-16 10:57:21 CET
 </div>
 </div>
 </body>

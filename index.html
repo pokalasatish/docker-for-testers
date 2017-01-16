@@ -538,22 +538,18 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 <li><a href="#building-images">5. Building images</a>
 <ul class="sectlevel2">
-<li><a href="#what-do-we-need-to-change">5.1. What do we need to change?</a>
-<ul class="sectlevel3">
-<li><a href="#changes-to-the-image">5.1.1. Changes to the image</a></li>
-<li><a href="#building-the-new-image">5.1.2. Building the new image</a>
-<ul class="sectlevel4">
-<li><a href="#starting-the-new-image">Starting the new image</a></li>
-<li><a href="#add-data-to-the-database">Add data to the database</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li><a href="#what-do-we-need-to-change">5.1. What do we need to change?</a></li>
+<li><a href="#changes-to-the-image">5.2. Changes to the image</a></li>
+<li><a href="#building-the-new-image">5.3. Building the new image</a></li>
+<li><a href="#setup-a-docker-network">5.4. Setup a docker network</a></li>
+<li><a href="#starting-the-new-image">5.5. Starting the new image</a></li>
+<li><a href="#add-data-to-the-database">5.6. Add data to the database</a></li>
+<li><a href="#run-the-newly-built-testnetapp-image">5.7. Run the newly built testnetapp image</a></li>
 </ul>
 </li>
 <li><a href="#running-your-database-with-data-included">6. Running your database with data included</a>
 <ul class="sectlevel2">
-<li><a href="#steps-to-prepare-the-database">6.1. Steps to prepare the database</a></li>
+<li><a href="#build-run-the-image">6.1. Build &amp; run the image</a></li>
 </ul>
 </li>
 <li><a href="#checking-whether-the-webpage-is-displayed-correctly">7. Checking whether the webpage is displayed correctly</a>
@@ -563,15 +559,22 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#connect-with-vnc">7.3. Connect with VNC</a></li>
 <li><a href="#adjust-simpletest">7.4. Adjust SimpleTest</a></li>
 <li><a href="#execute-your-test">7.5. Execute your test</a>
-<ul class="sectlevel4">
-<li><a href="#considerations">Considerations</a></li>
+<ul class="sectlevel3">
+<li><a href="#additional-windows-docker-toolbox-details">7.5.1. Additional Windows/Docker toolbox details</a></li>
 </ul>
 </li>
+<li><a href="#considerations">7.6. Considerations</a></li>
 </ul>
 </li>
-<li><a href="#appendix">8. Appendix</a>
+<li><a href="#additional-assignments">8. Additional assignments</a>
 <ul class="sectlevel2">
-<li><a href="#dealing-with-named-containers">8.1. Dealing with named containers</a></li>
+<li><a href="#run-a-selenium-hub-with-nodes-for-firefox-and-chrome">8.1. Run a Selenium Hub with nodes for Firefox and Chrome</a></li>
+<li><a href="#run-the-testnetapp-with-a-different-type-of-database">8.2. Run the testnetapp with a different type of database</a></li>
+</ul>
+</li>
+<li><a href="#appendix">9. Appendix</a>
+<ul class="sectlevel2">
+<li><a href="#dealing-with-named-containers">9.1. Dealing with named containers</a></li>
 </ul>
 </li>
 </ul>
@@ -594,7 +597,7 @@ table.CodeRay td.code>pre{padding:0}
 <p><strong>The purpose of this training is to learn how to use Docker on your local machine.</strong></p>
 </div>
 <div class="paragraph">
-<p>At the end of the day you will know how to:</p>
+<p>After finishing the training you will know how to:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -696,7 +699,7 @@ If you encounter the message "VT-x/AMD-v has to be enabled", please enable "Inte
 </div>
 </div>
 <div class="paragraph">
-<p>This should show you a "Hello from Docker!" message and additional details on what happened under the hood.</p>
+<p>This should show you a <code>Hello from Docker!</code> message and additional details on what happened under the hood.</p>
 </div>
 <div class="paragraph">
 <div class="title">Breaking down the command</div>
@@ -731,6 +734,9 @@ If you encounter the message "VT-x/AMD-v has to be enabled", please enable "Inte
 <pre>docker run -d -P training/webapp python app.py</pre>
 </div>
 </div>
+<div class="paragraph">
+<p>This runs the <code>training/webapp</code>-image in detached (<code>-d</code>) mode, exposing all ports (<code>-P</code>), calling <code>python</code> inside the container with one argument <code>app.py</code>, which is a script inside the container.</p>
+</div>
 <div class="listingblock">
 <div class="title">List the details of the newest container</div>
 <div class="content">
@@ -747,6 +753,9 @@ If you encounter the message "VT-x/AMD-v has to be enabled", please enable "Inte
 <pre>Go to http://localhost:32769 (the port number left of the -&gt; in the docker ps command output)</pre>
 </div>
 </div>
+<div class="paragraph">
+<p>The site should say <code>Hello world!</code>.</p>
+</div>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -759,13 +768,10 @@ If you are using the Docker Toolbox, you have to go to <code><a href="http://&lt
 </tr>
 </table>
 </div>
-<div class="paragraph">
-<p>The site should say "Hello world!".</p>
-</div>
 <div class="sect2">
 <h3 id="inspecting-the-logs">3.1. Inspecting the logs</h3>
 <div class="paragraph">
-<p>After you&#8217;ve seen the "Hello world"-message you might want to inspect the logs of the docker container with the <code>logs</code> command.</p>
+<p>After you&#8217;ve seen the <code>Hello world-message</code> you might want to inspect the logs of the docker container with the <code>logs</code> command.</p>
 </div>
 <div class="listingblock">
 <div class="title">Show the logs</div>
@@ -780,7 +786,7 @@ If you are using the Docker Toolbox, you have to go to <code><a href="http://&lt
 <div class="sect2">
 <h3 id="passing-environment-variables-to-a-container">3.2. Passing environment variables to a container</h3>
 <div class="paragraph">
-<p>Most containers are configurable using environment variables that you can pass in at startup with the <code>-e</code> flag.
+<p>A lot of containers are configurable using environment variables that you can pass in at startup with the <code>-e</code> flag.
 We&#8217;ll use the container&#8217;s <code>PROVIDER</code> environment variable to pass in your name so it will be shown when you visit the website.</p>
 </div>
 <div class="admonitionblock note">
@@ -835,9 +841,6 @@ docker ps</pre>
 <p>Figure out how to start another <code>training/webapp</code> container mapping a specific port (80) to the exposed port of the container (5000).
 Afterwards you should be able to see the Hello-message on <a href="http://localhost:80" class="bare">http://localhost:80</a>.</p>
 </div>
-<div class="paragraph">
-<p>Also figure out what the -d parameter is doing by checking the documentation.</p>
-</div>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -845,7 +848,7 @@ Afterwards you should be able to see the Hello-message on <a href="http://localh
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Start by checking the documentation of the run command: <code>docker run --help</code>
+Start by checking the <a href="https://docs.docker.com/engine/reference/run/#/expose-incoming-ports">documentation of the run command</a> or execute: <code>docker run --help</code>. Also figure out what the -d parameter is doing by checking the documentation.
 </td>
 </tr>
 </table>
@@ -857,7 +860,7 @@ Start by checking the documentation of the run command: <code>docker run --help<
 <h2 id="managing-containers">4. Managing containers</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><strong>After exercise 1 and 2 we have a number of containers running, which we will probably want to stop at some point in time (like now).</strong></p>
+<p><strong>After exercise 1 and 2 we have a number of containers running, which we will probably want to stop at some point in time. Let&#8217;s practice that now.</strong></p>
 </div>
 <div class="paragraph">
 <p>First we have to figure out which containers are currently running with <code>docker ps</code>.</p>
@@ -867,7 +870,7 @@ Start by checking the documentation of the run command: <code>docker run --help<
 <div class="listingblock">
 <div class="title">Listing all running containers</div>
 <div class="content">
-<pre>$ docker ps</pre>
+<pre>docker ps</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1003,6 +1006,9 @@ Start by checking the documentation of the run command: <code>docker run --help<
 </div>
 </li>
 <li>
+<p>Setup a docker network</p>
+</li>
+<li>
 <p>Run a database with data</p>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
@@ -1030,8 +1036,9 @@ Start by checking the documentation of the run command: <code>docker run --help<
 <div class="paragraph">
 <p>The following sections will discuss all these steps one-by-one.</p>
 </div>
-<div class="sect3">
-<h4 id="changes-to-the-image">5.1.1. Changes to the image</h4>
+</div>
+<div class="sect2">
+<h3 id="changes-to-the-image">5.2. Changes to the image</h3>
 <div class="paragraph">
 <p>In order to build a Docker image yourself you need a <a href="https://docs.docker.com/engine/reference/builder/">Dockerfile</a>. In this case we will supply you with the Dockerfile necessary to create the image. But you will have to run the build process yourself to make the image available to your Docker daemon.</p>
 </div>
@@ -1041,7 +1048,7 @@ Start by checking the documentation of the run command: <code>docker run --help<
 <p>Download the <a href="https://github.com/bolcom/docker-for-testers/archive/master.zip">workshop zip file</a> and unzip it on your local harddisk</p>
 </li>
 <li>
-<p>Go to <code>docker-images/training-webapp-postgres</code> folder</p>
+<p>Go to <code>docker-images/training-webapp</code> folder</p>
 </li>
 <li>
 <p>Review the Dockerfile to understand what we are building</p>
@@ -1070,8 +1077,8 @@ Start by checking the documentation of the run command: <code>docker run --help<
 </ol>
 </div>
 </div>
-<div class="sect3">
-<h4 id="building-the-new-image">5.1.2. Building the new image</h4>
+<div class="sect2">
+<h3 id="building-the-new-image">5.3. Building the new image</h3>
 <div class="paragraph">
 <p>We now have to instruct Docker to pickup the Dockerfile and build it with the tag <code>testnetapp</code>.</p>
 </div>
@@ -1082,7 +1089,7 @@ Start by checking the documentation of the run command: <code>docker run --help<
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Make sure your working directory is <code>docker-images/training-webapp-postgres</code>
+Make sure your working directory is <code>docker-images/training-webapp</code>
 </td>
 </tr>
 </table>
@@ -1105,8 +1112,32 @@ Read the documentation of the build command: <code>docker build --help</code>
 </tr>
 </table>
 </div>
-<div class="sect4">
-<h5 id="starting-the-new-image">Starting the new image</h5>
+</div>
+<div class="sect2">
+<h3 id="setup-a-docker-network">5.4. Setup a docker network</h3>
+<div class="paragraph">
+<p>If we want docker containers to be able to reach each other, we need to setup a <a href="https://docs.docker.com/engine/userguide/networking/">docker container network</a>. To create a docker network called "training" we need to run the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>docker network create training</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+A Docker network automatically allows Docker containers to reach each other by container name, as long as they are part of the same network. This works via the <a href="https://docs.docker.com/engine/userguide/networking/#/docker-embedded-dns-server">DNS server</a> on the Docker daemon.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="starting-the-new-image">5.5. Starting the new image</h3>
 <div class="paragraph">
 <p>Before we start a container with the <code>testnetapp</code> image we first need to start a Postgres database that will store our data for us.</p>
 </div>
@@ -1114,24 +1145,33 @@ Read the documentation of the build command: <code>docker build --help</code>
 <p>Luckily, we can use an off-the-shelf image provided by <a href="https://hub.docker.com/_/postgres/">Postgres</a>.</p>
 </div>
 <div class="listingblock">
-<div class="title">Run the Postgres image with a variable to set the password</div>
+<div class="title">Run the Postgres image with a variable to set the password. Also notice the "--network training" parameter.</div>
 <div class="content">
-<pre>docker run --name pg -e POSTGRES_PASSWORD=testnet -d postgres</pre>
+<pre>docker run --network training --name pg -e POSTGRES_PASSWORD=testnet -d postgres</pre>
 </div>
 </div>
+<div class="paragraph">
+<p>Use the following command to inspect the docker container network:</p>
 </div>
-<div class="sect4">
-<h5 id="add-data-to-the-database">Add data to the database</h5>
-<div class="exampleblock">
+<div class="listingblock">
 <div class="content">
+<pre>docker network inspect training</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="add-data-to-the-database">5.6. Add data to the database</h3>
 <div class="paragraph">
 <p>Because you may not have a Postgres database client installed we start another container from the Postgres image to connect to the previously started container. From there we can add some data to the database to display in the testnetapp.</p>
 </div>
 <div class="literalblock">
 <div class="title">Connect with PSQL to the database</div>
 <div class="content">
-<pre>docker run -it --rm --link pg:pg postgres psql -h pg -U postgres</pre>
+<pre>docker run -it --rm --network training postgres psql -h pg -U postgres</pre>
 </div>
+</div>
+<div class="paragraph">
+<p>This starts a new instance of the <code>postgres</code> image in interactive mode (<code>-it</code>), removes it after stopping the container (<code>--rm</code>), makes it part of the <code>training</code>-network and executes <code>psql -h pg -U postgres</code> inside the container in order to connect to the running database container.</p>
 </div>
 <div class="literalblock">
 <div class="title">Execute commands in the running database to prepare data</div>
@@ -1145,11 +1185,12 @@ SELECT * FROM kv; -- Check that the data is really there
 </div>
 </div>
 </div>
-</div>
+<div class="sect2">
+<h3 id="run-the-newly-built-testnetapp-image">5.7. Run the newly built testnetapp image</h3>
 <div class="literalblock">
 <div class="title">Now run the app and check that your data is displayed</div>
 <div class="content">
-<pre>docker run -ti --link pg:pg -p 5000:5000 testnetapp</pre>
+<pre>docker run -it --network training --name testnetapp -p 5000:5000 testnetapp</pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -1159,13 +1200,25 @@ SELECT * FROM kv; -- Check that the data is really there
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-In foreground mode (the default when -d is not specified), docker run can start the process in the container and attach the console to the process’s standard input, output, and standard error. It can even pretend to be a TTY (this is what most command line executables expect) and pass along signals.
+In foreground mode (the default when -d is not specified), <code>docker run</code> can start the process in the container and attach the console to the process’s standard input, output, and standard error. It can even pretend to be a TTY (this is what most command line executables expect) and pass along signals.
 For interactive processes (like a shell), you must use -i -t together in order to allocate a tty for the container process. -i -t is often written -it.
 </td>
 </tr>
 </table>
 </div>
-</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">Error on Windows: <code>the input device is not a TTY.</code></div>
+On Windows/GIT Bash/Cygwin you may get the following error <code>the input device is not a TTY. If you are using mintty, try prefixing the command with 'winpty'</code>.
+Run the command again with <code>winpty</code> in front of it. Refer to this <a href="http://willi.am/blog/2016/08/08/docker-for-windows-interactive-sessions-in-mintty-git-bash/">page</a> for details.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -1192,21 +1245,42 @@ If you still have containers running, please stop them now.
 </table>
 </div>
 <div class="sect2">
-<h3 id="steps-to-prepare-the-database">6.1. Steps to prepare the database</h3>
+<h3 id="build-run-the-image">6.1. Build &amp; run the image</h3>
 <div class="paragraph">
 <p><span class="image"><img src="./images/custom-db-container.png" alt="custom db container" width="600" height="600"></span></p>
 </div>
 <div class="paragraph">
 <p>Follow the steps below to create your own version of the Postgres image, including the files necessary to create the data we need for the <code>testnetapp</code>.</p>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create an empty folder</p>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Create an empty folder</p>
+<p>Save the shell script below in that folder as <code>create.sh</code></p>
 </li>
-<li>
-<p>Put the <code>.sh</code> script below in that folder</p>
+</ol>
+</div>
 </li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>#!/bin/bash
+set -e
+
+psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" &lt;&lt;-EOSQL
+    CREATE DATABASE testnet;
+    \c testnet
+    CREATE TABLE kv (key varchar(100) PRIMARY KEY, value varchar(100));
+    INSERT INTO kv VALUES ('provider','Now getting data from Postgres!');
+EOSQL</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
 <li>
 <p>Create a <code>Dockerfile</code> in the folder that</p>
 <div class="olist loweralpha">
@@ -1221,26 +1295,27 @@ If you still have containers running, please stop them now.
 </div>
 </li>
 <li>
-<p>Build the image and run it</p>
+<p>Build the image and run it as part of the training network</p>
 </li>
 <li>
-<p>Run the <code>testnetapp</code> and link it to the new Postgres image</p>
+<p>Run the <code>testnetapp</code> and make it part of the training network</p>
 </li>
-</ol>
+</ul>
 </div>
-<div class="listingblock">
-<div class="title">The script to add to the Dockerfile</div>
-<div class="content">
-<pre>#!/bin/bash
-set -e
-
-psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" &lt;&lt;-EOSQL
-    CREATE DATABASE testnet;
-    \c testnet
-    CREATE TABLE kv (key varchar(100) PRIMARY KEY, value varchar(100));
-    INSERT INTO kv VALUES ('provider','Now getting data from Postgres!');
-EOSQL</pre>
+<div class="paragraph">
+<p>You should see the message 'Now getting data from Postgres!' if you visit the web app.</p>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+On Windows you may have to run dos2unix on your .sh file before you can build the image. This will fix the line-endings in the script and allow it to be executed by the database image.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -1286,7 +1361,7 @@ EOSQL</pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>docker run --name selenium -d --link testnetapp -p 4444:4444 -p 5900:5900 selenium/standalone-firefox-debug</pre>
+<pre>docker run --name selenium -d --network training -p 4444:4444 -p 5900:5900 selenium/standalone-firefox-debug</pre>
 </div>
 </div>
 </div>
@@ -1327,34 +1402,74 @@ Make sure that your command prompt is in the <code>selenium-grid-docker</code> d
 <div class="literalblock">
 <div class="title">Execute this command to start the test</div>
 <div class="content">
-<pre>docker run -it --rm --name my-maven-project --link selenium -v "$PWD":/usr/src/mymaven -w /usr/src/mymaven maven:3.3.9-jdk-8-alpine mvn clean install</pre>
+<pre>docker run -it --rm --name my-maven-project --network training -v "$PWD":/usr/src/mymaven -w /usr/src/mymaven maven:3.3.9-jdk-8-alpine mvn clean install</pre>
 </div>
 </div>
-<div class="sect4">
-<h5 id="considerations">Considerations</h5>
-<div class="exampleblock">
+<div class="sect3">
+<h4 id="additional-windows-docker-toolbox-details">7.5.1. Additional Windows/Docker toolbox details</h4>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+On Windows/GIT Bash/Cygwin you may get the following error <code>the input device is not a TTY. If you are using mintty, try prefixing the command with 'winpty'</code>.
+Run the command again with <code>winpty</code> in front of it. Refer to this <a href="http://willi.am/blog/2016/08/08/docker-for-windows-interactive-sessions-in-mintty-git-bash/">page</a> for details.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Before we can mount a volume on Windows when using Docker Machine we need to make a shared folder in Virtual Box first. See step 3 of this <a href="https://blog.pavelsklenar.com/5-useful-docker-tip-and-tricks-on-windows/">page</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="considerations">7.6. Considerations</h3>
+<div class="literalblock">
 <div class="content">
-<div class="ulist">
-<ul>
-<li>
-<p>Why do we link the Maven container to the Selenium container? Why doesn&#8217;t the Selenium container have to be linked to the <code>testnetapp</code> container?</p>
-</li>
-<li>
-<p>What are the implications of the <code>-v</code> flag in the command?</p>
-</li>
-</ul>
-</div>
-</div>
+<pre>What are the implications of the `-v` flag in the command?</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="appendix">8. Appendix</h2>
+<h2 id="additional-assignments">8. Additional assignments</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The following assignments are extra. They give less information upfront and you&#8217;ll have to investigate a bit yourself.</p>
+</div>
+<div class="sect2">
+<h3 id="run-a-selenium-hub-with-nodes-for-firefox-and-chrome">8.1. Run a Selenium Hub with nodes for Firefox and Chrome</h3>
+<div class="paragraph">
+<p>In assignment 06 we used a single container, but often you will want to test your application in multiple browsers.
+Figure out which <a href="https://github.com/SeleniumHQ/docker-selenium">containers</a> you need and how to adjust the SimpleTest class to use a different browser.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="run-the-testnetapp-with-a-different-type-of-database">8.2. Run the testnetapp with a different type of database</h3>
+<div class="paragraph">
+<p>See if you can adjust the Python script in the testnetapp container to talk to a different type of database, such as <a href="https://hub.docker.com/r/wnameless/oracle-xe-11g/">Oracle XE</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="appendix">9. Appendix</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="dealing-with-named-containers">8.1. Dealing with named containers</h3>
+<h3 id="dealing-with-named-containers">9.1. Dealing with named containers</h3>
 <div class="paragraph">
 <p>You can start named containers by adding <code>--name your_name</code> to any docker run command. If you try to start a new instance of a container with that same name you will get an error message.</p>
 </div>
@@ -1377,7 +1492,7 @@ Make sure that your command prompt is in the <code>selenium-grid-docker</code> d
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-01-09 12:50:08 CET
+Last updated 2017-01-16 10:57:21 CET
 </div>
 </div>
 </body>

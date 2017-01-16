@@ -516,7 +516,7 @@ table.CodeRay td.code>pre{padding:0}
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#steps-to-prepare-the-database">1. Steps to prepare the database</a></li>
+<li><a href="#build-run-the-image">1. Build &amp; run the image</a></li>
 </ul>
 </div>
 </div>
@@ -544,7 +544,7 @@ If you still have containers running, please stop them now.
 </div>
 </div>
 <div class="sect1">
-<h2 id="steps-to-prepare-the-database">1. Steps to prepare the database</h2>
+<h2 id="build-run-the-image">1. Build &amp; run the image</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><span class="image"><img src="custom-db-container.png" alt="custom db container" width="600" height="600"></span></p>
@@ -552,14 +552,35 @@ If you still have containers running, please stop them now.
 <div class="paragraph">
 <p>Follow the steps below to create your own version of the Postgres image, including the files necessary to create the data we need for the <code>testnetapp</code>.</p>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create an empty folder</p>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Create an empty folder</p>
+<p>Save the shell script below in that folder as <code>create.sh</code></p>
 </li>
-<li>
-<p>Put the <code>.sh</code> script below in that folder</p>
+</ol>
+</div>
 </li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>#!/bin/bash
+set -e
+
+psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" &lt;&lt;-EOSQL
+    CREATE DATABASE testnet;
+    \c testnet
+    CREATE TABLE kv (key varchar(100) PRIMARY KEY, value varchar(100));
+    INSERT INTO kv VALUES ('provider','Now getting data from Postgres!');
+EOSQL</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
 <li>
 <p>Create a <code>Dockerfile</code> in the folder that</p>
 <div class="olist loweralpha">
@@ -574,33 +595,34 @@ If you still have containers running, please stop them now.
 </div>
 </li>
 <li>
-<p>Build the image and run it</p>
+<p>Build the image and run it as part of the training network</p>
 </li>
 <li>
-<p>Run the <code>testnetapp</code> and link it to the new Postgres image</p>
+<p>Run the <code>testnetapp</code> and make it part of the training network</p>
 </li>
-</ol>
+</ul>
 </div>
-<div class="listingblock">
-<div class="title">The script to add to the Dockerfile</div>
-<div class="content">
-<pre>#!/bin/bash
-set -e
-
-psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" &lt;&lt;-EOSQL
-    CREATE DATABASE testnet;
-    \c testnet
-    CREATE TABLE kv (key varchar(100) PRIMARY KEY, value varchar(100));
-    INSERT INTO kv VALUES ('provider','Now getting data from Postgres!');
-EOSQL</pre>
+<div class="paragraph">
+<p>You should see the message 'Now getting data from Postgres!' if you visit the web app.</p>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+On Windows you may have to run dos2unix on your .sh file before you can build the image. This will fix the line-endings in the script and allow it to be executed by the database image.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-01-09 12:50:08 CET
+Last updated 2017-01-16 10:57:21 CET
 </div>
 </div>
 </body>
