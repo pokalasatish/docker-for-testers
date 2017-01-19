@@ -614,7 +614,7 @@ table.CodeRay td.code>pre{padding:0}
 <div class="content">
 <pre>[a] FROM training/webapp
 [b] RUN apt-get -y update &amp;&amp; apt-get -y install libpq-dev python-dev
-[b] RUN pip install pygresql
+    RUN pip install pygresql
 [c] ADD app.py /opt/webapp/app.py</pre>
 </div>
 </div>
@@ -624,7 +624,7 @@ table.CodeRay td.code>pre{padding:0}
 <p>We use the <code>training/webapp</code> image as a base-image</p>
 </li>
 <li>
-<p>We run 2 commands inside the container to add the Python dependencies</p>
+<p>We run 2 commands inside the container to install python and pygresql (a library that lets python code talk to PostgreSQL)</p>
 </li>
 <li>
 <p>We overwrite the existing <code>app.py</code> file with our new <code>app.py</code> file that will check the database.</p>
@@ -793,7 +793,7 @@ Run the command again with <code>winpty</code> in front of it. Refer to this <a 
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-01-19 10:49:40 CET
+Last updated 2017-01-19 11:01:20 CET
 </div>
 </div>
 </body>

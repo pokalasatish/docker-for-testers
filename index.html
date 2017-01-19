@@ -1056,7 +1056,7 @@ Start by checking the <a href="https://docs.docker.com/engine/reference/run/#/ex
 <div class="content">
 <pre>[a] FROM training/webapp
 [b] RUN apt-get -y update &amp;&amp; apt-get -y install libpq-dev python-dev
-[b] RUN pip install pygresql
+    RUN pip install pygresql
 [c] ADD app.py /opt/webapp/app.py</pre>
 </div>
 </div>
@@ -1066,7 +1066,7 @@ Start by checking the <a href="https://docs.docker.com/engine/reference/run/#/ex
 <p>We use the <code>training/webapp</code> image as a base-image</p>
 </li>
 <li>
-<p>We run 2 commands inside the container to add the Python dependencies</p>
+<p>We run 2 commands inside the container to install python and pygresql (a library that lets python code talk to PostgreSQL)</p>
 </li>
 <li>
 <p>We overwrite the existing <code>app.py</code> file with our new <code>app.py</code> file that will check the database.</p>
