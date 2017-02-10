@@ -537,7 +537,7 @@ table.CodeRay td.code>pre{padding:0}
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>In this exercise we will run our <code>testnetapp</code> and verify that the displayed page has the correct content, using a browser supplied by Selenium.</p>
+<p>In this exercise we will run our <code>webserver</code> and verify that the displayed page has the correct content, using a browser supplied by Selenium.</p>
 </div>
 </div>
 </div>
@@ -545,18 +545,18 @@ table.CodeRay td.code>pre{padding:0}
 <h2 id="preparing-the-test-environment">1. Preparing the test environment</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><span class="image"><img src="container-overview.png" alt="container overview" width="600" height="600"></span></p>
+<p><span class="image"><img src="container-overview.png" alt="container overview" width="380" height="350"></span></p>
 </div>
 <div class="paragraph">
-<p>For the automated check to succeed we assume the following:</p>
+<p>For the automated check to succeed we need to create the following situation:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>The Postgres database is running and has data</p>
+<p>The <code>database</code> container is running and has data</p>
 </li>
 <li>
-<p><code>testnetapp</code> is able to connect to the database</p>
+<p><code>webserver</code> is able to connect to the <code>database</code></p>
 </li>
 <li>
 <p>Selenium grid is running</p>
@@ -572,11 +572,11 @@ table.CodeRay td.code>pre{padding:0}
 <h2 id="starting-the-selenium-server">2. Starting the selenium server</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Assuming you have the Postgres and <code>testnetapp</code> image running, start the Selenium server by executing:</p>
+<p>Assuming you have the <code>database</code> and <code>webserver</code> containers running, start the Selenium server by executing:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>docker run --name selenium -d --network training -p 4444:4444 -p 5900:5900 selenium/standalone-firefox-debug</pre>
+<pre>docker run --rm --name selenium -d --network training -p 4444:4444 -p 5900:5900 selenium/standalone-firefox-debug</pre>
 </div>
 </div>
 </div>
@@ -594,7 +594,7 @@ The VNC server is listening on port 5900, the password is <code>secret</code>.</
 <h2 id="adjust-simpletest">4. Adjust SimpleTest</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>We&#8217;ve prepared a simple Java project to test whether the <code>testnetapp</code> displays the correct message.
+<p>We&#8217;ve prepared a simple Java project to test whether the <code>webserver</code> displays the correct message.
 Adjust the message you added to the database in the SimpleTest.java file. This file can be found inside the selenium-grid-docker directory.</p>
 </div>
 </div>
@@ -669,7 +669,7 @@ Before we can mount a volume on Windows when using Docker Machine we need to mak
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-01-19 10:49:40 CET
+Last updated 2017-02-10 13:07:22 CET
 </div>
 </div>
 </body>

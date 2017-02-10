@@ -544,7 +544,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#setup-a-docker-network">5.4. Setup a docker network</a></li>
 <li><a href="#starting-the-new-image">5.5. Starting the new image</a></li>
 <li><a href="#add-data-to-the-database">5.6. Add data to the database</a></li>
-<li><a href="#run-the-newly-built-testnetapp-image">5.7. Run the newly built testnetapp image</a></li>
+<li><a href="#run-the-newly-built-webserver-image">5.7. Run the newly built webserver image</a></li>
 </ul>
 </li>
 <li><a href="#running-your-database-with-data-included">6. Running your database with data included</a>
@@ -569,7 +569,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#additional-assignments">8. Additional assignments</a>
 <ul class="sectlevel2">
 <li><a href="#run-a-selenium-hub-with-nodes-for-firefox-and-chrome">8.1. Run a Selenium Hub with nodes for Firefox and Chrome</a></li>
-<li><a href="#run-the-testnetapp-with-a-different-type-of-database">8.2. Run the testnetapp with a different type of database</a></li>
+<li><a href="#run-the-webserver-with-a-different-type-of-database">8.2. Run the webserver with a different type of database</a></li>
 </ul>
 </li>
 <li><a href="#appendix">9. Appendix</a>
@@ -720,7 +720,7 @@ If you encounter the message "VT-x/AMD-v has to be enabled", please enable "Inte
 <h2 id="running-docker-containers">3. Running Docker containers</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><span class="image"><img src="./images/first-container.png" alt="first container" width="500" height="500"></span></p>
+<p><span class="image"><img src="./images/first-container.png" alt="first container" width="380" height="500"></span></p>
 </div>
 <div class="paragraph">
 <p><strong>This assignment focuses on the Docker commands necessary to start, stop and inspect containers.</strong><br></p>
@@ -985,7 +985,7 @@ Start by checking the <a href="https://docs.docker.com/engine/reference/run/#/ex
 <div class="sect2">
 <h3 id="what-do-we-need-to-change">5.1. What do we need to change?</h3>
 <div class="paragraph">
-<p><span class="image"><img src="./images/postgres-container.png" alt="postgres container" width="600" height="600"></span></p>
+<p><span class="image"><img src="./images/postgres-container.png" alt="postgres container" width="380" height="350"></span></p>
 </div>
 <div class="paragraph">
 <p>In order to add the ability to connect to a database we have to change a number of things:</p>
@@ -1048,7 +1048,7 @@ Start by checking the <a href="https://docs.docker.com/engine/reference/run/#/ex
 <p>Download the <a href="https://github.com/bolcom/docker-for-testers/archive/master.zip">workshop zip file</a> and unzip it on your local harddisk</p>
 </li>
 <li>
-<p>Go to <code>docker-images/training-webapp</code> folder</p>
+<p>Go to <code>docker-images/webserver</code> folder</p>
 </li>
 <li>
 <p>Review the Dockerfile to understand what we are building</p>
@@ -1080,7 +1080,7 @@ Start by checking the <a href="https://docs.docker.com/engine/reference/run/#/ex
 <div class="sect2">
 <h3 id="building-the-new-image">5.3. Building the new image</h3>
 <div class="paragraph">
-<p>We now have to instruct Docker to pickup the Dockerfile and build it with the tag <code>testnetapp</code>.</p>
+<p>We now have to instruct Docker to pickup the Dockerfile and build it with the tag <code>webserver</code>.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1089,7 +1089,7 @@ Start by checking the <a href="https://docs.docker.com/engine/reference/run/#/ex
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Make sure your working directory is <code>docker-images/training-webapp</code>
+Make sure your working directory is <code>docker-images/webserver</code>
 </td>
 </tr>
 </table>
@@ -1097,7 +1097,7 @@ Make sure your working directory is <code>docker-images/training-webapp</code>
 <div class="literalblock">
 <div class="title">Build the new image with a tag</div>
 <div class="content">
-<pre>docker build -t testnetapp .</pre>
+<pre>docker build -t webserver .</pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -1139,7 +1139,7 @@ A Docker network automatically allows Docker containers to reach each other by c
 <div class="sect2">
 <h3 id="starting-the-new-image">5.5. Starting the new image</h3>
 <div class="paragraph">
-<p>Before we start a container with the <code>testnetapp</code> image we first need to start a Postgres database that will store our data for us.</p>
+<p>Before we start a container with the <code>webserver</code> image we first need to start a Postgres database that will store our data for us.</p>
 </div>
 <div class="paragraph">
 <p>Luckily, we can use an off-the-shelf image provided by <a href="https://hub.docker.com/_/postgres/">Postgres</a>.</p>
@@ -1147,7 +1147,7 @@ A Docker network automatically allows Docker containers to reach each other by c
 <div class="listingblock">
 <div class="title">Run the Postgres image with a variable to set the password. Also notice the "--network training" parameter.</div>
 <div class="content">
-<pre>docker run --network training --name pg -e POSTGRES_PASSWORD=testnet -d postgres</pre>
+<pre>docker run --rm --network training --name database -e POSTGRES_PASSWORD=testnet -d postgres</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1162,7 +1162,7 @@ A Docker network automatically allows Docker containers to reach each other by c
 <div class="sect2">
 <h3 id="add-data-to-the-database">5.6. Add data to the database</h3>
 <div class="paragraph">
-<p>Because you may not have a Postgres database client installed we start another container from the Postgres image to connect to the previously started container. From there we can add some data to the database to display in the testnetapp.</p>
+<p>Because you may not have a Postgres database client installed we start another container from the Postgres image to connect to the previously started container. From there we can add some data to the database to display on the webpage.</p>
 </div>
 <div class="literalblock">
 <div class="title">Connect with PSQL to the database</div>
@@ -1186,11 +1186,11 @@ SELECT * FROM kv; -- Check that the data is really there
 </div>
 </div>
 <div class="sect2">
-<h3 id="run-the-newly-built-testnetapp-image">5.7. Run the newly built testnetapp image</h3>
+<h3 id="run-the-newly-built-webserver-image">5.7. Run the newly built webserver image</h3>
 <div class="literalblock">
 <div class="title">Now run the app and check that your data is displayed</div>
 <div class="content">
-<pre>docker run -it --network training --name testnetapp -p 5000:5000 testnetapp</pre>
+<pre>docker run -it --rm --network training --name webserver -p 5000:5000 webserver</pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -1227,7 +1227,7 @@ Run the command again with <code>winpty</code> in front of it. Refer to this <a 
 <h2 id="running-your-database-with-data-included">6. Running your database with data included</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><strong>Having to insert the data every time you start a container can become a hassle. In this exercise we will bake our data into the Postgres image so that it will be available on startup.</strong></p>
+<p><strong>Having to insert the data every time you start a container can become a hassle. In this exercise we will create our own version of the Postgres image and bake our data into it. That way the data will always be available on startup.</strong></p>
 </div>
 <div class="paragraph">
 <p>The <a href="https://hub.docker.com/_/postgres/">Postgres</a> image provides a convenient way to execute scripts on startup of your database. All we have to do is add a <code>.sh</code> script to the <code>docker-entrypoint-initdb.d-folder</code> as per the documentation of the image.</p>
@@ -1247,10 +1247,10 @@ If you still have containers running, please stop them now.
 <div class="sect2">
 <h3 id="build-run-the-image">6.1. Build &amp; run the image</h3>
 <div class="paragraph">
-<p><span class="image"><img src="./images/custom-db-container.png" alt="custom db container" width="600" height="600"></span></p>
+<p><span class="image"><img src="./images/custom-db-container.png" alt="custom db container" width="380" height="350"></span></p>
 </div>
 <div class="paragraph">
-<p>Follow the steps below to create your own version of the Postgres image, including the files necessary to create the data we need for the <code>testnetapp</code>.</p>
+<p>Follow the steps below to create your own version of the Postgres image, including the files necessary to create the data we will access from the <code>webserver</code>.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1295,10 +1295,10 @@ EOSQL</pre>
 </div>
 </li>
 <li>
-<p>Build the image and run it as part of the training network</p>
+<p>Build the image as <code>database</code> and run it as part of the training network</p>
 </li>
 <li>
-<p>Run the <code>testnetapp</code> and make it part of the training network</p>
+<p>Run a <code>webserver</code> container and make it part of the training network</p>
 </li>
 </ul>
 </div>
@@ -1312,7 +1312,7 @@ EOSQL</pre>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-On Windows you may have to run dos2unix on your .sh file before you can build the image. This will fix the line-endings in the script and allow it to be executed by the database image.
+On Windows you may have to run dos2unix on your .sh file before you can build the image. This will fix the line-endings in the script and allow it to be executed by the database image. Alternatively you can open the .sh file in Notepad++ and change the line endings to UNIX style.
 </td>
 </tr>
 </table>
@@ -1327,23 +1327,23 @@ On Windows you may have to run dos2unix on your .sh file before you can build th
 <p><strong>Spinning up your own Selenium containers can be convenient if you want to test a site with a specific browser and don&#8217;t want to bother with configuration of machines.</strong></p>
 </div>
 <div class="paragraph">
-<p>In this exercise we will run our <code>testnetapp</code> and verify that the displayed page has the correct content, using a browser supplied by Selenium.</p>
+<p>In this exercise we will run our <code>webserver</code> and verify that the displayed page has the correct content, using a browser supplied by Selenium.</p>
 </div>
 <div class="sect2">
 <h3 id="preparing-the-test-environment">7.1. Preparing the test environment</h3>
 <div class="paragraph">
-<p><span class="image"><img src="./images/container-overview.png" alt="container overview" width="600" height="600"></span></p>
+<p><span class="image"><img src="./images/container-overview.png" alt="container overview" width="380" height="350"></span></p>
 </div>
 <div class="paragraph">
-<p>For the automated check to succeed we assume the following:</p>
+<p>For the automated check to succeed we need to create the following situation:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>The Postgres database is running and has data</p>
+<p>The <code>database</code> container is running and has data</p>
 </li>
 <li>
-<p><code>testnetapp</code> is able to connect to the database</p>
+<p><code>webserver</code> is able to connect to the <code>database</code></p>
 </li>
 <li>
 <p>Selenium grid is running</p>
@@ -1357,11 +1357,11 @@ On Windows you may have to run dos2unix on your .sh file before you can build th
 <div class="sect2">
 <h3 id="starting-the-selenium-server">7.2. Starting the selenium server</h3>
 <div class="paragraph">
-<p>Assuming you have the Postgres and <code>testnetapp</code> image running, start the Selenium server by executing:</p>
+<p>Assuming you have the <code>database</code> and <code>webserver</code> containers running, start the Selenium server by executing:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>docker run --name selenium -d --network training -p 4444:4444 -p 5900:5900 selenium/standalone-firefox-debug</pre>
+<pre>docker run --rm --name selenium -d --network training -p 4444:4444 -p 5900:5900 selenium/standalone-firefox-debug</pre>
 </div>
 </div>
 </div>
@@ -1375,7 +1375,7 @@ The VNC server is listening on port 5900, the password is <code>secret</code>.</
 <div class="sect2">
 <h3 id="adjust-simpletest">7.4. Adjust SimpleTest</h3>
 <div class="paragraph">
-<p>We&#8217;ve prepared a simple Java project to test whether the <code>testnetapp</code> displays the correct message.
+<p>We&#8217;ve prepared a simple Java project to test whether the <code>webserver</code> displays the correct message.
 Adjust the message you added to the database in the SimpleTest.java file. This file can be found inside the selenium-grid-docker directory.</p>
 </div>
 </div>
@@ -1458,9 +1458,9 @@ Figure out which <a href="https://github.com/SeleniumHQ/docker-selenium">contain
 </div>
 </div>
 <div class="sect2">
-<h3 id="run-the-testnetapp-with-a-different-type-of-database">8.2. Run the testnetapp with a different type of database</h3>
+<h3 id="run-the-webserver-with-a-different-type-of-database">8.2. Run the webserver with a different type of database</h3>
 <div class="paragraph">
-<p>See if you can adjust the Python script in the testnetapp container to talk to a different type of database, such as <a href="https://hub.docker.com/r/wnameless/oracle-xe-11g/">Oracle XE</a>.</p>
+<p>See if you can adjust the Python script in the webserver container to talk to a different type of database, such as <a href="https://hub.docker.com/r/wnameless/oracle-xe-11g/">Oracle XE</a>.</p>
 </div>
 </div>
 </div>
@@ -1492,7 +1492,7 @@ Figure out which <a href="https://github.com/SeleniumHQ/docker-selenium">contain
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-01-19 10:49:40 CET
+Last updated 2017-02-10 10:00:15 CET
 </div>
 </div>
 </body>
