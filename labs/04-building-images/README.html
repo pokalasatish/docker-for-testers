@@ -737,7 +737,7 @@ A Docker network automatically allows Docker containers to reach each other by c
 </div>
 </div>
 <div class="paragraph">
-<p>This starts a new instance of the <code>postgres</code> image in interactive mode (<code>-it</code>), removes it after stopping the container (<code>--rm</code>), makes it part of the <code>training</code>-network and executes <code>psql -h pg -U postgres</code> inside the container in order to connect to the running database container.</p>
+<p>This starts a new instance of the <code>postgres</code> image in interactive mode (<code>-it</code>), removes it after stopping the container (<code>--rm</code>), makes it part of the <code>training</code>-network and executes <code>psql -h database -U postgres</code> inside the container in order to connect to the running database container.</p>
 </div>
 <div class="literalblock">
 <div class="title">Execute commands in the running database to prepare data</div>
@@ -793,7 +793,7 @@ Run the command again with <code>winpty</code> in front of it. Refer to this <a 
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-02-22 15:49:04 CET
+Last updated 2017-02-22 15:55:47 CET
 </div>
 </div>
 </body>
