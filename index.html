@@ -942,7 +942,7 @@ Start by checking the <a href="https://docs.docker.com/engine/reference/run/#/ex
 <p>You can remove a container by running <code>docker rm</code> followed by its container id or name.</p>
 </div>
 <div class="listingblock">
-<div class="title">Stopping a container</div>
+<div class="title">Removing a container</div>
 <div class="content">
 <pre>docker rm big_newton</pre>
 </div>
@@ -1167,7 +1167,7 @@ A Docker network automatically allows Docker containers to reach each other by c
 <div class="literalblock">
 <div class="title">Connect with PSQL to the database</div>
 <div class="content">
-<pre>docker run -it --rm --network training postgres psql -h pg -U postgres</pre>
+<pre>docker run -it --rm --network training postgres psql -h database -U postgres</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1492,7 +1492,7 @@ Figure out which <a href="https://github.com/SeleniumHQ/docker-selenium">contain
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-02-10 10:00:15 CET
+Last updated 2017-01-19 10:49:40 CET
 </div>
 </div>
 </body>
