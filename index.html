@@ -517,7 +517,12 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel0">
 <li><a href="#docker-for-testers">Docker for testers</a>
 <ul class="sectlevel1">
-<li><a href="#installation-instructions">1. Installation instructions</a></li>
+<li><a href="#installation-instructions">1. Installation instructions</a>
+<ul class="sectlevel2">
+<li><a href="#mac">1.1. Mac</a></li>
+<li><a href="#windows">1.2. Windows</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#exercises">Exercises</a>
@@ -636,18 +641,50 @@ You can find the slides of the presentation on <a href="https://docs.google.com/
 <h2 id="installation-instructions">1. Installation instructions</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Follow these steps to setup Docker on your machine.</p>
+<p>In order to do this workshop you need to install Docker Community Edition on your machine. We recommend you install the stable edition.</p>
+</div>
+<div class="sect2">
+<h3 id="mac">1.1. Mac</h3>
+<div class="paragraph">
+<p>Please install Docker Community Edition for Mac. You can find the download link on: <a href="https://store.docker.com/editions/community/docker-ce-desktop-mac" class="bare">https://store.docker.com/editions/community/docker-ce-desktop-mac</a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="windows">1.2. Windows</h3>
+<div class="paragraph">
+<p>Choose the correct Docker installation based on your Windows version.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Go to <a href="https://www.docker.com/products/overview#/install_the_platform" class="bare">https://www.docker.com/products/overview#/install_the_platform</a></p>
+<p>Windows 8 or earlier</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Install Docker Toolbox from <a href="https://www.docker.com/products/docker-toolbox" class="bare">https://www.docker.com/products/docker-toolbox</a></p>
+</li>
+</ul>
+</div>
 </li>
 <li>
-<p>Download the distributable for your system type</p>
+<p>Windows 10 Home edition</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Install Docker Toolbox from <a href="https://www.docker.com/products/docker-toolbox" class="bare">https://www.docker.com/products/docker-toolbox</a></p>
+</li>
+</ul>
+</div>
 </li>
 <li>
-<p>Follow the installation instructions</p>
+<p>Windows 10 Professional or Enterprise 64-bit</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Install Docker Community Edition for Windows from <a href="https://store.docker.com/editions/community/docker-ce-desktop-windows" class="bare">https://store.docker.com/editions/community/docker-ce-desktop-windows</a></p>
+</li>
+</ul>
+</div>
 </li>
 </ul>
 </div>
@@ -661,24 +698,12 @@ You can find the slides of the presentation on <a href="https://docs.google.com/
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<strong>Windows Home Edition</strong><br>
-If you run Windows Home Edition and/or get a message about Hyper-V being disabled, you have to install <a href="https://www.docker.com/products/docker-toolbox">Docker Toolbox</a> instead because your version of Windows does not support the "Docker for Windows"-product.
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
 <strong>Hardware Virtualization disabled</strong><br>
 If you encounter the message "VT-x/AMD-v has to be enabled", please enable "Intel Virtualization" in the BIOS of your system. This is required for running virtual machines. Detailed instructions can be found <a href="http://www.howtogeek.com/213795/how-to-enable-intel-vt-x-in-your-computers-bios-or-uefi-firmware/">here</a> under "Access the BIOS or UEFI Firmware".
 </td>
 </tr>
 </table>
+</div>
 </div>
 </div>
 </div>
@@ -1492,7 +1517,7 @@ Figure out which <a href="https://github.com/SeleniumHQ/docker-selenium">contain
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-01-19 10:49:40 CET
+Last updated 2017-02-10 13:18:27 CET
 </div>
 </div>
 </body>
